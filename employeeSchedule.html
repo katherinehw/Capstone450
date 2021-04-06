@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Page</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<!--navbar-->
+<div class="w3-bar w3-black w3-card">
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
+            <i class="fas fa-cat" onclick="home()" id="home"></i>
+                </span></a>
+    <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick="schedule()">Schedule</a>
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i
+            class="far fa-bell"></i></a>
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i
+            class="far fa-comments"></i></a>
+
+    <div class="w3-dropdown-hover w3-hide-small w3-right">
+        <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i
+                class="fas fa-user-astronaut"></i></span></button>
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <button id="accnt" onclick="accnt()" class="w3-padding-large w3-bar-item w3-button">Account</button>
+            <button id="logout" class="w3-padding-large w3-bar-item w3-button">Log Out</button>
+        </div>
+    </div>
+</div>
+<div>
+
+
+<div class ="w3-container w3-padding-32">
+    <h1>Schedule</h1>
+    <div class ="w3-quarter"></div>
+    <div class ="w3-quarter">
+        <label for="issue">Report An Issue (The box to the right):</label>
+        <br><br><br>
+        <label for="trade">Suggest a shift change:</label>
+        <br><br><br>
+        <label for="dayoff">Request a day off:</label>
+    </div>
+
+    <div class ="w3-quarter">
+        <textarea placeholder="Date(s):"></textarea></td>
+        <textarea placeholder="Who do you want to switch with?"></textarea>
+    </div>
+    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=7&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=eG9ra2F0eG9AZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=bXJqanFubTE3dDQ3N3Z2OHEwcjJlZXJkMGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%237986CB&amp;color=%237986CB&amp;color=%239E69AF&amp;color=%23616161&amp;showPrint=0&amp;title=Choose%20a%20day&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <br><br>
+    <button>Submit</button>
+</div>
+
+</div>
+
+<script>
+    function home() {
+    window.location.href = "nonManHome.html"
+}
+
+function accnt() {
+    window.location.href = "employeeAccount.html"
+}
+
+
+</script>
+
+
+</body>
+</html>

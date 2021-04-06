@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Sign Up</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+    authDomain: "capstone450.firebaseapp.com",
+    databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+    projectId: "capstone450",
+    storageBucket: "capstone450.appspot.com",
+    messagingSenderId: "706717697173",
+    appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+    measurementId: "G-V28RYN23J2"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  </script>
+
+
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a  class="w3-bar-item w3-padding-large"><span style="color: rgb(247, 244, 243);">
+      <i class="fas fa-cat"></i>
+    </span></a>
+    <a class="w3-bar-item w3-padding-large">Manage My Restaurant- Taste of Philly</a>
+  </div>
+</div>
+
+
+<body>
+
+    <div class="row">
+    
+        <div class="w3-column w3-padding-top-64 w3-center">
+            <h1>Sign Up</h1>
+        <p>Fill in the form to create an account.</p>
+        <hr>
+        <div class="w3-container" id="signup-form"> 
+            <label for="name"><b>Name</b></label>
+            <input type="text" placeholder="Enter first and last name" id="name" name="name" required>
+            <br>
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Enter email" id="email" name="email" required>
+            <br>
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter password" id="password" name="psw" required>
+            <br>
+            <label for="psw-repeat"><b>Repeat Password</b></label>
+            <input type="password" placeholder="Repeat password"id="pswrepeat" name="psw-repeat" required>
+            <br>
+            <label for="hours"><b>Number of hours per work week</b></label>
+            <input type="text" placeholder="Enter number" id="hours" name="hours" required>
+            <br>
+            <br>
+            <label for="training"><b>Position(s)</b></label>
+            <div id ="training">   
+                <input type="radio" id="cook" name="user required" value="cook">
+                <label for="manager">Cook</label>
+                <input type="radio" id="cashier" name="user" value="cashier">
+                <label for="manager">Cashier</label>
+                <input type="radio" id="driver" name="user" value="driver">
+                <label for="employee">Driver</label>
+            </div>    
+        
+            <label>
+                <input type="checkbox" checked="checked" name="remember" style="margin-top:30px"> Remember me
+            </label>
+        <div>
+            <br>
+            <button id="cancel" onclick="back()">Cancel</button>
+            <button id="signup" onclick="signup()">Sign Up</button>
+        </div>
+      </div>
+    </div>
+        
+</div>
+
+<script>
+
+
+
+function signup(){
+
+  var email = document.getElementById("email").value
+  var password = document.getElementById("password").value
+  var username = document.getElementById("name").value
+  var numHours = document.getElementById("hours").value
+  
+  firebase.auth().createUserWithEmailAndPassword(email, password).catch(e=>{
+    console.log(e);
+  })
+
+  firebase.auth().onAuthStateChanged(user=>{
+    if(user){
+      console.log(user)
+      firebase.database().ref('users/' + username).set({
+        username: username,
+        email: email,
+        password: password,
+        hoursPerWeek: numHours
+      });
+    }
+    else{
+      console.log('error')
+    }
+  })
+}
+
+
+
+
+</script>
+  
+  </body>
+
+</html>

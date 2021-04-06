@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Manager Homepage</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
+      <i class="fas fa-cat" onclick="home()" id="home"></i>
+      </span></a>
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-padding-large w3-button" title="analytics">Analytics <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#sales" class="w3-bar-item w3-button" onclick ="sales()">Sales</a>
+        <a href="#labor" class="w3-bar-item w3-button" onclick ="labor()">Labor</a>
+        <a href="#foodcost" class="w3-bar-item w3-button" onclick ="food()">Food Cost</a>
+      </div>
+    </div>
+    <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick ="schedule()">Schedule</a>
+    <a href="#employees" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick ="employees()">Employees</a>
+    
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-bell"></i></a>
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-comments"></i></a>
+    <div class="w3-dropdown-hover w3-hide-small w3-right">
+      <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i class="fas fa-user-astronaut"></i></span></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
+        <a href="#logout" class="w3-padding-large w3-bar-item w3-button">Log Out</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class = "w3-container w3-center w3-padding-top-64">
+    
+        <h1>ACCOUNT</h1>
+   </div>
+    <div class ="W3-container">
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Name:
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="Name" id="name"></textarea>
+                <i class="far fa-edit" id="btn1" disabled onclick="nameBtn()"></i>
+            </div>
+            <div class="w3-col s3">
+             
+                
+            </div>
+        </div>
+      
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Email:
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="Email" id="email"></textarea>
+                <i class="far fa-edit" id="btn2" disabled onclick="emailBtn()"></i>
+            </div>
+           
+        </div>
+       <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                positions(s):
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <input type="radio" id="btn11" value="cashier">
+                <label for="btn11">Cashier</label>
+                <input type="radio" id="btn12" value="cook">
+                <label for="btn12">Cook</label>
+                <input type="radio" id="btn13" value="driver">
+                <label for="btn13">Driver</label>
+            </div>
+           
+        </div>
+       <br>
+        <div class="w3-row-padding">
+        <div class="w3-col s3">
+            <p></p>
+        </div>
+        <div class="w3-col s3 w3-center">
+            Hourly Wage:
+        </div>
+
+        <div class="w3-col s3 w3-center">
+            <textarea disabled placeholder="Hourly Wage" id="wage"></textarea>
+            <i class="far fa-edit" id="btn3" disabled onclick="hryWBtn()"></i>
+        </div>
+       
+        </div>
+        <br>
+
+        <div class="w3-container w3-center">
+                Availability:   
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Sunday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="SUNDAY" id="sun"></textarea>
+                <i class="far fa-edit" id="btn4" disabled onclick="sunBtn()"></i>
+            </div>
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Monday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="MONDAY" id="mon"></textarea>
+                <i class="far fa-edit" id="btn5" disabled onclick="monBtn()"></i>
+            </div>
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Tuesday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="TUESDAY" id="tues"></textarea>
+                <i class="far fa-edit" id="btn6" disabled onclick="tuesBtn()"></i>
+            </div>
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Wednesday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="WEDNESDAY" id="wed"></textarea>
+                <i class="far fa-edit"id="btn7" disabled onclick="wedBtn()"></i>
+            </div>
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Thursday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="THURSDAY" id="thurs"></textarea>
+                <i class="far fa-edit" id="btn8" disabled onclick="thursBtn()"></i>
+            </div>
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Friday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="FRIDAY" id="fri"></textarea>
+                <i class="far fa-edit" id="btn9" disabled onclick="friBtn()"></i>
+            </div>
+        </div>
+        <br>
+        <div class="w3-row-padding">
+            <div class="w3-col s3">
+                <p></p>
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                Saturday
+            </div>
+
+            <div class="w3-col s3 w3-center">
+                <textarea disabled placeholder="SATURDAY" id="sat"></textarea>
+                <i class="far fa-edit" id="btn10" disabled onclick="satBtn()"></i>
+            </div>
+        </div>
+        <br>
+   
+     
+<script>
+
+function home() {
+  window.location.href = "managerHome.html"
+}
+
+
+function accnt() {
+  window.location.href = "managerAccount.html"
+}
+
+function employees() {
+  window.location.href = "employees.html"
+}
+
+function schedule() {
+  window.location.href = "managerSchedule.html"
+}
+
+function sales() {
+  window.location.href = "salespage.html"
+}
+
+function food() {
+  window.location.href = "foodcostpage.html"
+}
+
+function labor() {
+  window.location.href = "laborpage.html"
+}
+
+function nameBtn() {
+    document.getElementById("name").disabled = false;
+}
+
+function emailBtn() {
+    document.getElementById("email").disabled = false;
+}
+
+function hryWBtn() {
+    document.getElementById("wage").disabled = false;
+}
+
+function sunBtn() {
+    document.getElementById("sun").disabled = false;
+}
+
+function monBtn() {
+    document.getElementById("mon").disabled = false;
+}
+
+function tuesBtn() {
+    document.getElementById("tues").disabled = false;
+}
+
+function wedBtn() {
+    document.getElementById("wed").disabled = false;
+}
+
+function thursBtn() {
+    document.getElementById("thurs").disabled = false;
+}
+
+function friBtn() {
+    document.getElementById("fri").disabled = false;
+}
+
+function satBtn() {
+    document.getElementById("sat").disabled = false;
+}
+
+
+</script>
+
+</body>
+</html>
