@@ -5,6 +5,7 @@
     <title>Account Info</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/test.css">
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
@@ -36,101 +37,67 @@
     
     </div>
 
-    <div class="w3-container w3-center">
+    <div class=" w3-center">
         <h1>ACCOUNT</h1>
-    </div>
-    <div class ="W3-container">
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-            <div class="w3-col s3 w3-center">
-                <div id="ManagmentCode">
-
-                    <textarea class="mngCode" id="Code" placeholder="Manager Code"></textarea>
-                    <br>
-                    <button class="mngCode" onclick="mngCode()">Submit</button>
-        
-                </div>
-                
-            </div>
-        </div>
-        
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Name:
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="Name" id="name"></textarea>
+    </div><br>
+    
+    <div class ="W3-container w3-center">
+        <div id="passcode" style="display:none">
+            <input type="text" id="Code" placeholder="Manager Code"><br>
+            <br><button class="w3-black" onclick="mngCode()">Submit</button>
+        </div>            
+    </div><br><br>
+    
+    <div class="w3-row-padding">
+        <div class="w3-col s2"><p></p></div>
+        <div class="w3-col s2"><p></p></div>
+    
+    
+            <div class="w3-col w3-padding s2 w3-left">
+                <label for="name"><b>Name:</b></label><br>
+                <textarea disabled placeholder="name" id="name" rows="1"></textarea>
                 <i class="far fa-edit" id="btn1" disabled onclick="nameBtn()"></i>
+                <br><br>
+                <label for="sixDig"><b>ID:</b></label><br>
+                <textarea disabled placeholder="ID" id="sixDig" rows="1"></textarea>
+                <i class="far fa-edit" id="btn2" disabled onclick="idBtn()"></i>
+                <br><br>
+                <label for="psw"><b>Password:</b></label><br>
+                <textarea disabled placeholder="password" id="psw" rows="1"></textarea>
+                <i class="far fa-edit" id="btn3" disabled onclick="pswBtn()"></i>
+                <br><br>
             </div>
-            <div class="w3-col s3">
-             
-                
+            <div class="w3-col w3-padding s2 w3-left">
+                <label for="email"><b>Email:</b></label>
+                <textarea disabled placeholder="email" id="email" rows="1"></textarea>
+                <i class="far fa-edit" id="btn4" disabled onclick="emailBtn()"></i>
+                <br><br>
+                <label for="wage"><b>Hourly Wage:</b></label>
+                <textarea disabled placeholder="wage" id="wage" rows="1"></textarea>
+                <i class="far fa-edit" id="btn5" disabled onclick="hryWBtn()"></i>
+                <br><br>
+                <label for="hours"><b>Hours Per Week:</b></label>
+                <textarea disabled placeholder="hours" id="hours" rows="1"></textarea>
+                <i class="far fa-edit" id="btn6" disabled onclick="hrsBtn()"></i>
+                <br><br>  
             </div>
         </div>
-      
+    
         <div class="w3-row-padding">
-            <div class="w3-col s3">
+            <div class="w3-col s4">
                 <p></p>
             </div>
-
-            <div class="w3-col s3 w3-center">
-                Email:
+            <div class="w3-col s4 w3-center">
+                <label for="pos"><b>Position</b></label><br><br>  
+                <div id="pos">
+                <select name="pstn" id="pstn">
+                  <option value="cashier">Cashier</option>
+                  <option value="driver">Driver</option>
+                  <option value="cook">Cook</option>
+                </select>
+                </div>
+            <br><br><br><button id="editbtn" class="w3-black" onclick="editAcct()">Edit</button>
             </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="Email" id="email"></textarea>
-                <i class="far fa-edit" id="btn2" disabled onclick="emailBtn()"></i>
-            </div>
-           
-        </div>
-       <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                positions(s):
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <input disabled type="radio" id="btn11" value="cashier">
-                <label for="btn11">Cashier</label>
-                <input disabled type="radio" id="btn12" value="cook">
-                <label for="btn12">Cook</label>
-                <input disabled type="radio" id="btn13" value="driver">
-                <label for="btn13">Driver</label>
-            </div>
-           
-        </div>
-       <br>
-        <div class="w3-row-padding">
-        <div class="w3-col s3">
-            <p></p>
-        </div>
-        <div class="w3-col s3 w3-center">
-            Hourly Wage:
-        </div>
-
-        <div class="w3-col s3 w3-center">
-            <textarea disabled placeholder="Hourly Wage" id="wage"></textarea>
-            <i class="far fa-edit" id="btn3" disabled onclick="hryWBtn()"></i>
-        </div>
        
         </div>
         <br>
@@ -261,178 +228,140 @@
           
    
 
-<script>
+    <script>
 
 
-    var firebaseConfig = {
-        apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
-        authDomain: "capstone450.firebaseapp.com",
-        databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
-        projectId: "capstone450",
-        storageBucket: "capstone450.appspot.com",
-        messagingSenderId: "706717697173",
-        appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
-        measurementId: "G-V28RYN23J2"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+        var firebaseConfig = {
+            apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+            authDomain: "capstone450.firebaseapp.com",
+            databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+            projectId: "capstone450",
+            storageBucket: "capstone450.appspot.com",
+            messagingSenderId: "706717697173",
+            appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+            measurementId: "G-V28RYN23J2"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
 
-    shwSch();
-
-    function logout(){
-  document.getElementById("logoutform").style.display = "block";
-}
-
-function confirmLogOut(){
-  firebase.auth().signOut().then(() => {
-    window.location.href = "/index.html"
-  }).catch((error) => {
-    alert("error")
-  });
-}
-
-
+        var uid = location.search.substring(1);
+    
+    var childKey;
+    
+    function editAcct(){
+    document.getElementById("editbtn").style.display="none";
+    document.getElementById("passcode").style.display="block";
+    }
+    
     function home() {
     window.location.href = "nonManHome.html"
-}
-
-function accnt() {
+    }
+    
+    function accnt() {
     window.location.href = "employeeAccount.html"
-}
-
-function schedule() {
+    }
+    
+    function schedule() {
     window.location.href = "employeeSchedule.html"
-}
-
-function mngCode() {
+}    
+    
+    function mngCode() {
     var code = document.getElementById("Code");
     code = code.value.trim();
     if (code === "12345") {
         show();
     } else {
-        alert(code.value);
+        alert("incorrect passcode.");
     }
 }
-
-function show() {
-
-    for (var i = 1; i < 14; i++) {
-
+    
+    
+    function show() {
+    document.getElementById("passcode").style.display="none";
+    for (i = 1; i < 7; i++) {
         var temp = "btn" + i;
-        document.getElementById(temp).removeAttribute("disabled")
-
+        document.getElementById(temp).removeAttribute("disabled");
     }
-
-}
-
-function nameBtn() {
+    }
+    
+    
+    function nameBtn() {
     document.getElementById("name").disabled = false;
-}
-
-function emailBtn() {
-    document.getElementById("email").disabled = false;
-}
-
-function hryWBtn() {
-    document.getElementById("wage").disabled = false;
-}
-
-function sunBtn() {
-    document.getElementById("sun").disabled = false;
-}
-
-function monBtn() {
-    document.getElementById("mon").disabled = false;
-}
-
-function tuesBtn() {
-    document.getElementById("tues").disabled = false;
-}
-
-function wedBtn() {
-    document.getElementById("wed").disabled = false;
-}
-
-function thursBtn() {
-    document.getElementById("thurs").disabled = false;
-}
-
-function friBtn() {
-    document.getElementById("fri").disabled = false;
-}
-
-function satBtn() {
-    document.getElementById("sat").disabled = false;
-}
-
-    var chck;
-    var temp;
-    //var uName = "/" + location.search.substring(1);
-    var uName = "/123456";
-    var childKey;
-    var weekD = ["/Sunday", "/Monday", "/Tuesday", "/Wednesday", "/Thursday", "/Friday", "/Saturday"];
-    const time = ["/1112", "/1201", "/0102", "/0203", "/0304", "/0405", "/0506", "/0607", "/0708"];
-
-    function shwSch(){
-
-    var ref = firebase.database().ref("AvailB");
-    ref.once("value").then(function (snapshot){
-
-        for (var i = 0; i < 9; i++){
-
-            for (var j = 0; j < 7; j++){
-
-                childKey = snapshot.child(uName + time[i] + weekD[j] + "/Check").val();
-                if (childKey === "Yes"){
-
-                    document.getElementById("" + i + j + "").checked = true;
-
-                }
-
-            }
-
-        }
-
-    });
-
-}
-
-function updateSch(){
-
-    for (var i = 0; i < 9; i++){
-
-        for (var j = 0; j < 7; j++){
-
-            temp = document.getElementById("" + i + j + "").checked;
-
-            if (temp){
-
-                firebase.database().ref('AvailB' + uName + time[i] + weekD[j]).set({
-
-                    Check: "Yes"
-
-
-                });
-
-            }else{
-
-                firebase.database().ref('AvailB' + uName + time[i] + weekD[j]).set({
-
-                    Check: "No"
-
-
-                });
-
-            }
-
-        }
-
     }
-
-    shwSch();
-
-}
-</script>
-
-</body>
-</html>
+    
+    function idBtn() {
+    document.getElementById("sixDig").disabled = false;
+    }
+    
+    function pswBtn() {
+    document.getElementById("psw").disabled = false;
+    }
+    
+    function hrsBtn() {
+    document.getElementById("hours").disabled = false;
+    }
+    
+    function emailBtn() {
+    document.getElementById("email").disabled = false;
+    }
+    
+    function hryWBtn() {
+    document.getElementById("wage").disabled = false;
+    }
+    
+    function setDta(){
+    
+        var uName = location.search.substring(1);
+    
+        var ref = firebase.database().ref("users");
+        ref.once("value").then(function(snapshot){
+    
+            childKey =snapshot.child(uName + "/name").val();
+            document.getElementById("name").innerHTML= childKey;
+            console.log(childKey);
+        
+    
+            childKey =snapshot.child(uName + "/UID").val();
+            document.getElementById("sixDig").innerHTML = childKey;
+    
+            childKey =snapshot.child(uName + "/password").val();
+            document.getElementById("psw").textContent = childKey;
+    
+            childKey = snapshot.child(uName + "/email").val();
+            document.getElementById("email").textContent = childKey;
+    
+            childKey = snapshot.child(uName + "/hoursPerWeek").val();
+            document.getElementById("hours").textContent = childKey;
+    
+            childKey = snapshot.child(uName + "/hourly").val();
+            document.getElementById("wage").textContent = childKey;
+    
+            childKey = snapshot.child(uName + "/position").val();
+            document.getElementById("pstn").textContent = childKey;
+    
+        });
+    
+    }
+    
+    setDta();
+    
+    function logout(){
+      document.getElementById("logoutform").style.display = "block";
+    }
+    
+    function confirmLogOut(){
+      firebase.auth().signOut().then(() => {
+        window.location.href = "/index.html"
+      }).catch((error) => {
+        alert("error")
+      });
+    }
+    
+    
+    
+      
+    
+    </script>
+    
+    </body>
+    </html>
