@@ -1,101 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
-<title>Manager Homepage</title>
+<title>Manager Schedule</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 <body>
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-black w3-card">
-    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
+    <div class="w3-bar w3-black w3-card">
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+        <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
       <i class="fas fa-cat" onclick="home()" id="home"></i>
       </span></a>
-    <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-padding-large w3-button" title="analytics">Analytics <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#sales" class="w3-bar-item w3-button" onclick ="sales()">Sales</a>
-        <a href="#labor" class="w3-bar-item w3-button" onclick ="labor()">Labor</a>
-        <a href="#foodcost" class="w3-bar-item w3-button" onclick ="food()">Food Cost</a>
-      </div>
+        <a href="#analytics" class="w3-bar-item w3-button w3-padding-large" onclick ="analytics()">Analytics</a>
+        <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick ="schedule()">Schedule</a>
+        <a href="#employees" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick ="employees()">Employees</a>
+
+        <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-bell"></i></a>
+        <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-comments"></i></a>
+        <div class="w3-dropdown-hover w3-hide-small w3-right">
+            <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i class="fas fa-user-astronaut"></i></span></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
+                <a href="#logout" class="w3-padding-large w3-bar-item w3-button" onclick="logout()">Log Out</a>
+            </div>
+        </div>
     </div>
-    <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick ="schedule()">Schedule</a>
-    <a href="#employees" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick ="employees()">Employees</a>
-    
-    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-bell"></i></a>
-    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-comments"></i></a>
-    <div class="w3-dropdown-hover w3-hide-small w3-right">
-      <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i class="fas fa-user-astronaut"></i></span></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
-        <a href="#logout" class="w3-padding-large w3-bar-item w3-button">Log Out</a>
-      </div>
-    </div>
-  </div>
 </div>
 
+<div class="w3-modal" id="logoutform" style="display:none">
+    <form class="w3-modal-content">
+        <h1>Are you sure you want to log out?</h1>
 
-<div class ="w3-container w3-padding-32">
-    <h1>Schedule</h1>
-    <div class ="w3-quarter"></div>
-    <div class ="w3-quarter">
-        <label for="issue">Report An Issue (The box to the right):</label>
-        <br><br><br>
-        <label for="trade">Suggest a shift change:</label>
-        <br><br><br>
-        <label for="dayoff">Request a day off:</label>
-    </div>
+        <button class="w3-button w3-black" onclick="confirmLogOut()">Log Out</button>
+        <button class="w3-button w3-black" onclick="closeForm()">Close</button>
+    </form>
+</div>
 
-    <div class ="w3-quarter">
-        <textarea placeholder="Date(s):"></textarea></td>
-        <textarea placeholder="Who do you want to switch with?"></textarea>
+<div class="w3-container w3-center">
+    <br><br><br>
+    <h1>Manage Schedule</h1>
+</div>
+<div class ="w3-row-padding">
+    <div class="w3-center ">
+
+        <table width="100%">
+            <tr>
+
+                <th class="doW"></th>
+                <th class="doW"></th>
+                <th class="doW">S</th>
+                <th class="doW">M</th>
+                <th class="doW">T</th>
+                <th class="doW">W</th>
+                <th class="doW">T</th>
+                <th class="doW">F</th>
+                <th class="doW">S</th>
+
+            </tr>
+            <tr>
+                <th rowspan=9></th>
+                <th id="01112">11AM-12PM</th>
+                <td><p id="01">1</p></td>
+                <td><p id="02">1</p></td>
+                <td><p id="03">1</p></td>
+                <td><p id="04">1</p></td>
+                <td><p id="05">1</p></td>
+                <td><p id="06">1</p></td>
+                <td><p id="07">1</p></td>
+            </tr>
+            <tr>
+                <th id="01201">12PM-1PM</th>
+                <td><p id="11">1</p></td>
+                <td><p id="12">1</p></td>
+                <td><p id="13">1</p></td>
+                <td><p id="14">1</p></td>
+                <td><p id="15">1</p></td>
+                <td><p id="16">1</p></td>
+                <td><p id="17">1</p></td>
+            </tr>
+            <tr>
+                <th id="00102">1PM-2PM</th>
+                <td><p id="21">1</p></td>
+                <td><p id="22">1</p></td>
+                <td><p id="23">1</p></td>
+                <td><p id="24">1</p></td>
+                <td><p id="25">1</p></td>
+                <td><p id="26">1</p></td>
+                <td><p id="27">1</p></td>
+            </tr>
+            <tr>
+                <th id="00203">2PM-3PM</th>
+                <td><p id="31">1</p></td>
+                <td><p id="32">1</p></td>
+                <td><p id="33">1</p></td>
+                <td><p id="34">1</p></td>
+                <td><p id="35">1</p></td>
+                <td><p id="36">1</p></td>
+                <td><p id="37">1</p></td>
+            </tr>
+            <tr>
+                <th id="00304">3PM-4PM</th>
+                <td><p id="41">1</p></td>
+                <td><p id="42">1</p></td>
+                <td><p id="43">1</p></td>
+                <td><p id="44">1</p></td>
+                <td><p id="45">1</p></td>
+                <td><p id="46">1</p></td>
+                <td><p id="47">1</p></td>
+            </tr>
+            <tr>
+                <th id="00405">4PM-5PM</th>
+                <td><p id="51">1</p></td>
+                <td><p id="52">1</p></td>
+                <td><p id="53">1</p></td>
+                <td><p id="54">1</p></td>
+                <td><p id="55">1</p></td>
+                <td><p id="56">1</p></td>
+                <td><p id="57">1</p></td>
+            </tr>
+            <tr>
+                <th id="00506">5PM-6PM</th>
+                <td><p id="61">1</p></td>
+                <td><p id="62">1</p></td>
+                <td><p id="63">1</p></td>
+                <td><p id="64">1</p></td>
+                <td><p id="65">1</p></td>
+                <td><p id="66">1</p></td>
+                <td><p id="67">1</p></td>
+            </tr>
+            <tr>
+                <th id="00607">6PM-7PM</th>
+                <td><p id="71">1</p></td>
+                <td><p id="72">1</p></td>
+                <td><p id="73">1</p></td>
+                <td><p id="74">1</p></td>
+                <td><p id="75">1</p></td>
+                <td><p id="76">1</p></td>
+                <td><p id="77">1</p></td>
+            </tr>
+            <tr>
+                <th id="00708">7PM-8PM</th>
+                <td><p id="81">1</p></td>
+                <td><p id="82">1</p></td>
+                <td><p id="83">1</p></td>
+                <td><p id="84">1</p></td>
+                <td><p id="85">1</p></td>
+                <td><p id="86">1</p></td>
+                <td><p id="87">1</p></td>
+            </tr>
+
+
+        </table>
+
+
     </div>
-    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=7&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=eG9ra2F0eG9AZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=bXJqanFubTE3dDQ3N3Z2OHEwcjJlZXJkMGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%237986CB&amp;color=%237986CB&amp;color=%239E69AF&amp;color=%23616161&amp;showPrint=0&amp;title=Choose%20a%20day&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</div>
+<br><br>
+<div class="w3-row-padding">
+    <div class="w3-container w3-border w3-third ">
+        <h2 class="w3-center">REQUESTED SHIFT TRADES</h2>
+        <table >
+            <tr class="w3-center">
+                <td><textarea id="trade1"></textarea></td>
+                <td><button>APRROVE</button><button>DENY</button></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="w3-container w3-border w3-third ">
+        <h2 class="w3-center">REPORTED ISSUES</h2>
+        <table class="w3-center">
+            <tr>
+                <td><textarea id="issue2"></textarea></td>
+                <td><button>APRROVE</button><button>DENY</button></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="w3-container w3-border w3-third ">
+        <h2 class="w3-center">PAYROLL</h2>
+        <table class="w3-center">
+            <tr>
+                <td><textarea id="shiftT3"></textarea></td>
+                <td class="w3-right"><button>APRROVE</button><button>DENY</button></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<br><br>
+
+<div class="w3-container w3-center w3-border w3-margin">
+    <table style="width: 100%">
+
+        <tr>
+
+            <th class="doW"></th>
+            <th class="doW"></th>
+            <th class="doW">S</th>
+            <th class="doW">M</th>
+            <th class="doW">T</th>
+            <th class="doW">W</th>
+            <th class="doW">T</th>
+            <th class="doW">F</th>
+            <th class="doW">S</th>
+
+        </tr>
+        <tr>
+            <th rowspan="9"></th>
+            <th id="1112" >11AM-12PM</th>
+            <td>
+                <p id="001"> <label for="001">COOK: </label> </p>
+                <p id="002"> <label for="002">CASHIER: </label> </p>
+                <p id="003"> <label for="003">DRIVER: </label> </p>
+            </td>
+            <td>
+                <p id="011"> <label for="001">COOK: </label> 1</p>
+                <p id="012"> <label for="002">CASHIER: </label> 1</p>
+                <p id="013"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="021"> <label for="001">COOK: </label> 1</p>
+                <p id="022"> <label for="002">CASHIER: </label> 1</p>
+                <p id="023"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="031"> <label for="001">COOK: </label> 1</p>
+                <p id="032"> <label for="002">CASHIER: </label> 1</p>
+                <p id="033"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="041"> <label for="001">COOK: </label> 1</p>
+                <p id="042"> <label for="002">CASHIER: </label> 1</p>
+                <p id="043"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="051"> <label for="001">COOK: </label> 1</p>
+                <p id="052"> <label for="002">CASHIER: </label> 1</p>
+                <p id="053"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="061"> <label for="001">COOK: </label> 1</p>
+                <p id="062"> <label for="002">CASHIER: </label> 1</p>
+                <p id="063"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+
+        </tr>
+        <tr>
+            <th id="1201">12PM-1PM</th>
+            <td>
+                <p id="101"> <label for="101">COOK: </label> 1</p>
+                <p id="102"> <label for="102">CASHIER: </label> 1</p>
+                <p id="103"> <label for="103">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="111"> <label for="111">COOK: </label> 1</p>
+                <p id="112"> <label for="112">CASHIER: </label> 1</p>
+                <p id="113"> <label for="113">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="121"> <label for="121">COOK: </label> 1</p>
+                <p id="122"> <label for="122">CASHIER: </label> 1</p>
+                <p id="123"> <label for="123">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="131"> <label for="131">COOK: </label> 1</p>
+                <p id="132"> <label for="132">CASHIER: </label> 1</p>
+                <p id="133"> <label for="133">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="141"> <label for="141">COOK: </label> 1</p>
+                <p id="142"> <label for="142">CASHIER: </label> 1</p>
+                <p id="143"> <label for="143">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="151"> <label for="151">COOK: </label> 1</p>
+                <p id="152"> <label for="152">CASHIER: </label> 1</p>
+                <p id="153"> <label for="153">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="161"> <label for="161">COOK: </label> 1</p>
+                <p id="162"> <label for="162">CASHIER: </label> 1</p>
+                <p id="163"> <label for="163">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0102">1PM-2PM</th>
+            <td>
+                <p id="201"> <label for="001">COOK: </label> 1</p>
+                <p id="202"> <label for="002">CASHIER: </label> 1</p>
+                <p id="203"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="211"> <label for="001">COOK: </label> 1</p>
+                <p id="212"> <label for="002">CASHIER: </label> 1</p>
+                <p id="213"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="221"> <label for="001">COOK: </label> 1</p>
+                <p id="222"> <label for="002">CASHIER: </label> 1</p>
+                <p id="223"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="231"> <label for="001">COOK: </label> 1</p>
+                <p id="232"> <label for="002">CASHIER: </label> 1</p>
+                <p id="233"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="241"> <label for="001">COOK: </label> 1</p>
+                <p id="242"> <label for="002">CASHIER: </label> 1</p>
+                <p id="243"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="251"> <label for="001">COOK: </label> 1</p>
+                <p id="252"> <label for="002">CASHIER: </label> 1</p>
+                <p id="253"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="261"> <label for="001">COOK: </label> 1</p>
+                <p id="262"> <label for="002">CASHIER: </label> 1</p>
+                <p id="263"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0203">2PM-3PM</th>
+            <td>
+                <p id="301"> <label for="001">COOK: </label> 1</p>
+                <p id="302"> <label for="002">CASHIER: </label> 1</p>
+                <p id="303"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="311"> <label for="001">COOK: </label> 1</p>
+                <p id="312"> <label for="002">CASHIER: </label> 1</p>
+                <p id="313"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="321"> <label for="001">COOK: </label> 1</p>
+                <p id="322"> <label for="002">CASHIER: </label> 1</p>
+                <p id="323"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="331"> <label for="001">COOK: </label> 1</p>
+                <p id="332"> <label for="002">CASHIER: </label> 1</p>
+                <p id="333"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="341"> <label for="001">COOK: </label> 1</p>
+                <p id="342"> <label for="002">CASHIER: </label> 1</p>
+                <p id="343"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="351"> <label for="001">COOK: </label> 1</p>
+                <p id="352"> <label for="002">CASHIER: </label> 1</p>
+                <p id="353"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="361"> <label for="001">COOK: </label> 1</p>
+                <p id="362"> <label for="002">CASHIER: </label> 1</p>
+                <p id="363"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0304">3PM-4PM</th>
+            <td>
+                <p id="401"> <label for="001">COOK: </label> 1</p>
+                <p id="402"> <label for="002">CASHIER: </label> 1</p>
+                <p id="403"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="411"> <label for="001">COOK: </label> 1</p>
+                <p id="412"> <label for="002">CASHIER: </label> 1</p>
+                <p id="413"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="421"> <label for="001">COOK: </label> 1</p>
+                <p id="422"> <label for="002">CASHIER: </label> 1</p>
+                <p id="423"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="431"> <label for="001">COOK: </label> 1</p>
+                <p id="432"> <label for="002">CASHIER: </label> 1</p>
+                <p id="433"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="441"> <label for="001">COOK: </label> 1</p>
+                <p id="442"> <label for="002">CASHIER: </label> 1</p>
+                <p id="443"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="451"> <label for="001">COOK: </label> 1</p>
+                <p id="452"> <label for="002">CASHIER: </label> 1</p>
+                <p id="453"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="461"> <label for="001">COOK: </label> 1</p>
+                <p id="462"> <label for="002">CASHIER: </label> 1</p>
+                <p id="463"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0405">4PM-5PM</th>
+            <td>
+                <p id="501"> <label for="001">COOK: </label> 1</p>
+                <p id="502"> <label for="002">CASHIER: </label> 1</p>
+                <p id="503"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="511"> <label for="001">COOK: </label> 1</p>
+                <p id="512"> <label for="002">CASHIER: </label> 1</p>
+                <p id="513"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="521"> <label for="001">COOK: </label> 1</p>
+                <p id="522"> <label for="002">CASHIER: </label> 1</p>
+                <p id="523"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="531"> <label for="001">COOK: </label> 1</p>
+                <p id="532"> <label for="002">CASHIER: </label> 1</p>
+                <p id="533"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="541"> <label for="001">COOK: </label> 1</p>
+                <p id="542"> <label for="002">CASHIER: </label> 1</p>
+                <p id="543"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="551"> <label for="001">COOK: </label> 1</p>
+                <p id="552"> <label for="002">CASHIER: </label> 1</p>
+                <p id="553"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="561"> <label for="001">COOK: </label> 1</p>
+                <p id="562"> <label for="002">CASHIER: </label> 1</p>
+                <p id="563"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0506">5PM-6PM</th>
+            <td>
+                <p id="601"> <label for="001">COOK: </label> 1</p>
+                <p id="602"> <label for="002">CASHIER: </label> 1</p>
+                <p id="603"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="611"> <label for="001">COOK: </label> 1</p>
+                <p id="612"> <label for="002">CASHIER: </label> 1</p>
+                <p id="613"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="621"> <label for="001">COOK: </label> 1</p>
+                <p id="622"> <label for="002">CASHIER: </label> 1</p>
+                <p id="623"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="631"> <label for="001">COOK: </label> 1</p>
+                <p id="632"> <label for="002">CASHIER: </label> 1</p>
+                <p id="633"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="641"> <label for="001">COOK: </label> 1</p>
+                <p id="642"> <label for="002">CASHIER: </label> 1</p>
+                <p id="643"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="651"> <label for="001">COOK: </label> 1</p>
+                <p id="652"> <label for="002">CASHIER: </label> 1</p>
+                <p id="653"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="661"> <label for="001">COOK: </label> 1</p>
+                <p id="662"> <label for="002">CASHIER: </label> 1</p>
+                <p id="663"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0607">6PM-7PM</th>
+            <td>
+                <p id="701"> <label for="001">COOK: </label> 1</p>
+                <p id="702"> <label for="002">CASHIER: </label> 1</p>
+                <p id="703"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="711"> <label for="001">COOK: </label> 1</p>
+                <p id="712"> <label for="002">CASHIER: </label> 1</p>
+                <p id="713"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="721"> <label for="001">COOK: </label> 1</p>
+                <p id="722"> <label for="002">CASHIER: </label> 1</p>
+                <p id="723"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="731"> <label for="001">COOK: </label> 1</p>
+                <p id="732"> <label for="002">CASHIER: </label> 1</p>
+                <p id="733"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="741"> <label for="001">COOK: </label> 1</p>
+                <p id="742"> <label for="002">CASHIER: </label> 1</p>
+                <p id="743"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="751"> <label for="001">COOK: </label> 1</p>
+                <p id="752"> <label for="002">CASHIER: </label> 1</p>
+                <p id="753"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="761"> <label for="001">COOK: </label> 1</p>
+                <p id="762"> <label for="002">CASHIER: </label> 1</p>
+                <p id="763"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th id="0708">7PM-8PM</th>
+            <td>
+                <p id="801"> <label for="001">COOK: </label> 1</p>
+                <p id="802"> <label for="002">CASHIER: </label> 1</p>
+                <p id="803"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="811"> <label for="001">COOK: </label> 1</p>
+                <p id="812"> <label for="002">CASHIER: </label> 1</p>
+                <p id="813"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="821"> <label for="001">COOK: </label> 1</p>
+                <p id="822"> <label for="002">CASHIER: </label> 1</p>
+                <p id="823"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="831"> <label for="001">COOK: </label> 1</p>
+                <p id="832"> <label for="002">CASHIER: </label> 1</p>
+                <p id="833"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="841"> <label for="001">COOK: </label> 1</p>
+                <p id="842"> <label for="002">CASHIER: </label> 1</p>
+                <p id="843"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="851"> <label for="001">COOK: </label> 1</p>
+                <p id="852"> <label for="002">CASHIER: </label> 1</p>
+                <p id="853"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+            <td>
+                <p id="861"> <label for="001">COOK: </label> 1</p>
+                <p id="862"> <label for="002">CASHIER: </label> 1</p>
+                <p id="863"> <label for="003">DRIVER: </label> 1</p>
+            </td>
+        </tr>
+
+
+    </table>
     <br><br>
-    <button>Submit</button>
-</div>
 
+    <div class="w3-border w3-padding-large" id="btnII">
+
+        <label for="pos">Positions:</label>
+        <select name="position" id="pos">
+            <option value="Driver/">Driver</option>
+            <option value="Cashier/">Cashier</option>
+            <option value="Cook/">Cook</option>
+        </select>
+
+        <label for="amnt"> - Amount Needed:</label>
+        <select name="amount" id="amnt">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <label for="days"> - WeekDay:</label>
+        <select name="weekdays" id="days">
+            <option value="Monday/">Monday</option>
+            <option value="Tuesday/">Tuesday</option>
+            <option value="Wednesday/">Wednesday</option>
+            <option value="Thursday/">Thursday</option>
+            <option value="Friday/">Friday</option>
+            <option value="Saturday/">Saturday</option>
+            <option value="Sunday/">Sunday</option>
+        </select>
+
+        <label for="ampm"> - AM/PM:</label>
+        <select name="ampm" id="ampm">
+            <option value="1112/">11AM - 12PM</option>
+            <option value="1201/">12PM - 1PM</option>
+            <option value="0102/">1PM - 2PM</option>
+            <option value="0203/">2PM - 3PM</option>
+            <option value="0304/">3PM- 4PM</option>
+            <option value="0405/">4PM - 5PM</option>
+            <option value="0506/">5PM - 6PM</option>
+            <option value="0607/">6PM - 7PM</option>
+            <option value="0708/">7PM - 8PM</option>
+        </select>
+
+        <button onclick="setSched()">Submit</button>
+
+    </div>
 </div>
 
 <script>
 
-function home() {
-  window.location.href = "managerHome.html"
+    var firebaseConfig = {
+        apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+        authDomain: "capstone450.firebaseapp.com",
+        databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+        projectId: "capstone450",
+        storageBucket: "capstone450.appspot.com",
+        messagingSenderId: "706717697173",
+        appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+        measurementId: "G-V28RYN23J2"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+
+    function home(){
+        window.location.href ="managerHome.html"
+    }
+
+    function analytics() {
+        window.location.href = "analytics.html"
+    }
+
+    function employees(){
+        window.location.href = "employees.html"
+    }
+
+    function logout(){
+  document.getElementById("logoutform").style.display = "block";
 }
 
 
-function accnt() {
-  window.location.href = "managerAccount.html"
+function confirmLogOut(){
+  firebase.auth().signOut().then(() => {
+    window.location.href = "/index.html"
+  }).catch((error) => {
+    alert("error")
+  });
 }
 
-function employees() {
-  window.location.href = "employees.html"
-}
+var post=document.getElementById("issue1");
+firebase.database().ref("schedIssues").on("value", function(snapshot){
+  post.innerHTML='';
+  snapshot.forEach(function(e){
+    var x=e.val();
+    post.innerHTML+= x.problem 
+    "<hr>";
 
-function schedule() {
-  window.location.href = "managerSchedule.html"
-}
+  });
+});
 
-function sales() {
-  window.location.href = "salespage.html"
-}
+var post=document.getElementById("trade1");
+firebase.database().ref("schedTrades").on("value", function(snapshot){
+  post.innerHTML='';
+  snapshot.forEach(function(e){
+    var y=e.val();
+    post.innerHTML+= y.tRequest 
+    "<hr>";
 
-function food() {
-  window.location.href = "foodcostpage.html"
-}
+  });
+});
 
-function labor() {
-  window.location.href = "laborpage.html"
-}
+    var position = ["Cashier", "Cook", "Driver"];
+    var weekD = ["/Sunday/", "/Monday/", "/Tuesday/", "/Wednesday/", "/Thursday/", "/Friday/", "/Saturday/"];
+    var time = ["1112", "1201", "0102", "0203", "0304", "0405", "0506", "0607", "0708"];
+    var childKey;
+    var cashierArr = [];
+    var cookArr = [];
 
+    function callData(){
+
+        var ref = firebase.database().ref("SchReq");
+        ref.once("value").then(function (snapshot) {
+
+            for (var i = 0; i < time.length; i++) {
+
+                for (var j = 0; j < weekD.length; j++) {
+
+                    for (var k = 0; k < position.length; k++) {
+
+                        childKey = snapshot.child(time[i] + weekD[j] + position[k] + "/amount").val();
+
+                        document.getElementById("" + i + j + (k+1) + "").innerText = position[k] + " : " + childKey;
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+    callData();
+
+    function setSched(){
+
+        var pos = document.getElementById("pos").value;
+        var amnt = document.getElementById("amnt").value;
+        var weekD = document.getElementById("days").value;
+        var time = document.getElementById("ampm").value;
+
+
+        firebase.database().ref('SchReq/' + time + weekD + pos).set({
+
+            amount:amnt
+
+
+        });
+
+        callData();
+
+
+    }
+
+    getPos();
+
+    function shwMSch(){
+
+        position = ["Cashier", "Cook", "Driver"];
+        weekD = ["/Sunday/", "/Monday/", "/Tuesday/", "/Wednesday/", "/Thursday/", "/Friday/", "/Saturday/"];
+        time = ["1112", "1201", "0102", "0203", "0304", "0405", "0506", "0607", "0708"];
+        var name;
+        var temp;
+        var CKey, CSKey,DRKey
+
+        var ref = firebase.database().ref("Sch");
+        ref.once("value").then(function (snapshot) {
+
+            for (var i = 0; i < time.length; i++) {
+
+                for (var j = 0; j < weekD.length; j++) {
+
+                        CKey = snapshot.child(time[i] + weekD[j] + "working/" + "cook").val();
+                        CSKey = snapshot.child(time[i] + weekD[j] + "working/" + "cashier").val();
+                        DRKey = snapshot.child(time[i] + weekD[j] + "working/" + "driver").val();
+
+                        temp = CKey + "\n" + CSKey + "\n" + DRKey;
+
+                        document.getElementById("" + i + (j+1) + "").innerText = temp;
+
+                }
+
+            }
+
+        });
+
+    }
+
+    shwMSch()
 
 
 </script>
+
+
+
+
+
+
 
 </body>
 </html>
