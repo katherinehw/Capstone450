@@ -1,0 +1,90 @@
+
+
+    /* Base for label styling */
+    [type="checkbox"]:not(:checked),
+    [type="checkbox"]:checked {
+        position: absolute;
+        left: 0;
+        opacity: 0.01;
+    }
+
+    [type="checkbox"]:not(:checked) + label,
+    [type="checkbox"]:checked + label {
+        position: relative;
+        font-size: 1.05em;
+        line-height: 1.7;
+        
+    }
+
+    /* checkbox aspect */
+    [type="checkbox"]:not(:checked) + label:before,
+    [type="checkbox"]:checked + label:before {
+        content: '';
+        position: absolute;
+       
+        width: 10em;
+        height: 4em;
+        border: 1px solid #aaa;
+        background: rgb(245, 243, 245);
+        border-radius: .2em;
+        -webkit-transition: all .275s;
+            transition: all .275s;
+        text-align: center;
+        padding: 4px;
+    }
+
+    /* checked mark aspect */
+    [type="checkbox"]:not(:checked) + label:after,
+    [type="checkbox"]:checked + label:after {
+        content: '';
+        position: absolute;
+        
+        width: 10em;
+        height: 4em;
+        border: 1px solid #aaa;
+        background: rgb(197, 40, 197);
+        border-radius: .2em;
+        -webkit-transition: all .275s;
+            transition: all .275s;
+        text-align: center;
+        padding: 4px;
+    
+    }
+    /* checked mark aspect changes */
+    [type="checkbox"]:not(:checked) + label:after {
+        opacity: 0;
+        -webkit-transform: scale(0) opacity 3s ease-in-out;
+            transform: scale(0) opacity 3s ease-in-out;
+    }
+
+    [type="checkbox"]:checked + label:after {
+        opacity: .5;
+        -webkit-transform: scale(1) opacity 3s ease-in-out;
+            transform: scale(1) opacity 3s ease-in-out;
+    }
+
+
+
+
+ td,tr{
+    
+    width: 10em;
+    height: 4em;
+  }
+
+  th {
+    width: 10em;
+    height: 4em;
+    margin-top: 10px;
+
+
+  }
+
+  #tble {
+    margin-left: 5%;
+  }
+  
+
+
+
+
