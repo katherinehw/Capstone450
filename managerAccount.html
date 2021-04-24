@@ -1,302 +1,484 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-<title>Manager Homepage</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
-
+<head>
+    <meta charset="UTF-8">
+    <title>Account Info</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/test.css">
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+    <script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>    
+</head>
 <body>
 
-<!-- Navbar -->
+    <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-black w3-card">
-    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
-      <i class="fas fa-cat" onclick="home()" id="home"></i>
-      </span></a>
-    <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-padding-large w3-button" title="analytics">Analytics <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#sales" class="w3-bar-item w3-button" onclick ="sales()">Sales</a>
-        <a href="#labor" class="w3-bar-item w3-button" onclick ="labor()">Labor</a>
-        <a href="#foodcost" class="w3-bar-item w3-button" onclick ="food()">Food Cost</a>
-      </div>
-    </div>
-    <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick ="schedule()">Schedule</a>
-    <a href="#employees" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick ="employees()">Employees</a>
-    
-    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-bell"></i></a>
-    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-comments"></i></a>
-    <div class="w3-dropdown-hover w3-hide-small w3-right">
-      <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i class="fas fa-user-astronaut"></i></span></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
-        <a href="#logout" class="w3-padding-large w3-bar-item w3-button">Log Out</a>
+    <div class="w3-bar w3-black w3-card">
+      <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+      <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
+        <i class="fas fa-cat" onclick="home()" id="home"></i>
+        </span></a>
+      <a href="#analytics" class="w3-bar-item w3-button w3-padding-large" onclick ="analytics()">Analytics</a> 
+      <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick ="schedule()">Schedule</a>
+      <a href="#employees" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick ="employees()">Employees</a>
+      
+      <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-bell"></i></a>
+      <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-comments"></i></a>
+      <div class="w3-dropdown-hover w3-hide-small w3-right">
+        <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i class="fas fa-user-astronaut"></i></span></button>     
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+          <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
+          <a href="#logout" class="w3-padding-large w3-bar-item w3-button" onclick="logout()">Log Out</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  
+  <div class="w3-modal" id="logoutform" style="display:none">
+    <form class="w3-modal-content">
+      <h1>Are you sure you want to log out?</h1>
+  
+      <button class="w3-button w3-black" onclick="confirmLogOut()">Log Out</button>
+      <button class="w3-button w3-black" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+    <br><br><br>
 
-<div class = "w3-container w3-center w3-padding-top-64">
-    
-        <h1>ACCOUNT</h1>
-   </div>
-    <div class ="W3-container">
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Name:
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="Name" id="name"></textarea>
-                <i class="far fa-edit" id="btn1" disabled onclick="nameBtn()"></i>
-            </div>
-            <div class="w3-col s3">
-             
-                
-            </div>
-        </div>
-      
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Email:
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="Email" id="email"></textarea>
-                <i class="far fa-edit" id="btn2" disabled onclick="emailBtn()"></i>
-            </div>
-           
-        </div>
-       <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                positions(s):
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <input type="radio" id="btn11" value="cashier">
-                <label for="btn11">Cashier</label>
-                <input type="radio" id="btn12" value="cook">
-                <label for="btn12">Cook</label>
-                <input type="radio" id="btn13" value="driver">
-                <label for="btn13">Driver</label>
-            </div>
-           
-        </div>
-       <br>
-        <div class="w3-row-padding">
-        <div class="w3-col s3">
-            <p></p>
-        </div>
-        <div class="w3-col s3 w3-center">
-            Hourly Wage:
-        </div>
-
-        <div class="w3-col s3 w3-center">
-            <textarea disabled placeholder="Hourly Wage" id="wage"></textarea>
-            <i class="far fa-edit" id="btn3" disabled onclick="hryWBtn()"></i>
-        </div>
-       
-        </div>
-        <br>
-
-        <div class="w3-container w3-center">
-                Availability:   
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Sunday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="SUNDAY" id="sun"></textarea>
-                <i class="far fa-edit" id="btn4" disabled onclick="sunBtn()"></i>
-            </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Monday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="MONDAY" id="mon"></textarea>
-                <i class="far fa-edit" id="btn5" disabled onclick="monBtn()"></i>
-            </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Tuesday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="TUESDAY" id="tues"></textarea>
-                <i class="far fa-edit" id="btn6" disabled onclick="tuesBtn()"></i>
-            </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Wednesday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="WEDNESDAY" id="wed"></textarea>
-                <i class="far fa-edit"id="btn7" disabled onclick="wedBtn()"></i>
-            </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Thursday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="THURSDAY" id="thurs"></textarea>
-                <i class="far fa-edit" id="btn8" disabled onclick="thursBtn()"></i>
-            </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Friday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="FRIDAY" id="fri"></textarea>
-                <i class="far fa-edit" id="btn9" disabled onclick="friBtn()"></i>
-            </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-            <div class="w3-col s3">
-                <p></p>
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                Saturday
-            </div>
-
-            <div class="w3-col s3 w3-center">
-                <textarea disabled placeholder="SATURDAY" id="sat"></textarea>
-                <i class="far fa-edit" id="btn10" disabled onclick="satBtn()"></i>
-            </div>
-        </div>
-        <br>
-   
+    <div class=" w3-center">
+      <h1>ACCOUNT</h1>
+  </div><br>
+  
+  <div class ="W3-container w3-center">
+      <div id="passcode" style="display:none">
+          <input type="text" id="Code" placeholder="Manager Code"><br>
+          <br><button class="w3-black" onclick="mngCode()">Submit</button>
+      </div>            
+  </div><br><br>
+  
+  <div class="w3-row-padding">
+      <div class="w3-col s2"><p></p></div>
+      <div class="w3-col s2"><p></p></div>
+  
+  
+          <div class="w3-col w3-padding s2 w3-left">
+              <label for="name"><b>Name:</b></label><br>
+              <textarea disabled placeholder="name" id="name" rows="1"></textarea>
+              <i class="far fa-edit" id="btn1" disabled onclick="nameBtn()"></i>
+              <br><br>
+              <label for="sixDig"><b>ID:</b></label><br>
+              <textarea disabled placeholder="ID" id="sixDig" rows="1"></textarea>
+              <i class="far fa-edit" id="btn2" disabled onclick="idBtn()"></i>
+              <br><br>
+              <label for="psw"><b>Password:</b></label><br>
+              <textarea disabled placeholder="password" id="psw" rows="1"></textarea>
+              <i class="far fa-edit" id="btn3" disabled onclick="pswBtn()"></i>
+              <br><br>
+          </div>
+          <div class="w3-col w3-padding s2 w3-left">
+              <label for="email"><b>Email:</b></label>
+              <textarea disabled placeholder="email" id="email" rows="1"></textarea>
+              <i class="far fa-edit" id="btn4" disabled onclick="emailBtn()"></i>
+              <br><br>
+              <label for="wage"><b>Hourly Wage:</b></label>
+              <textarea disabled placeholder="wage" id="wage" rows="1"></textarea>
+              <i class="far fa-edit" id="btn5" disabled onclick="hryWBtn()"></i>
+              <br><br>
+              <label for="hours"><b>Hours Per Week:</b></label>
+              <textarea disabled placeholder="hours" id="hours" rows="1"></textarea>
+              <i class="far fa-edit" id="btn6" disabled onclick="hrsBtn()"></i>
+              <br><br>  
+          </div>
+      </div>
+  
+      <div class="w3-row-padding">
+          <div class="w3-col s4">
+              <p></p>
+          </div>
+          <div class="w3-col s4 w3-center">
+              <label for="pos"><b>Position</b></label><br><br>  
+              <div id="pos">
+              <select name="pstn" id="pstn">
+                <option value="cashier">Cashier</option>
+                <option value="driver">Driver</option>
+                <option value="cook">Cook</option>
+              </select>
+              </div>
+          <br><br><br><button id="editbtn" class="w3-black" onclick="editAcct()">Edit</button>
+          </div>
      
+      </div>
+        <br>
+
+        <h1 class="w3-container w3-center">
+                Availability 
+        </h1>
+        <br>
+
+        <table id="tble">
+
+          <tr>
+  
+              
+              <th ></th>
+              <th >Sunday</th>
+              <th >Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th >Thursday</th>
+              <th >Friday</th>
+              <th >Saturday</th>
+  
+          </tr>
+          <tr >
+              
+            <th class="times">9am</th>
+            <td><input type="checkbox" id="00" />
+              <label for="00"></label>
+            <td><input type="checkbox" id="01" checked="checked"/>
+              <label for="01"></label>
+            <td><input type="checkbox" id="02" />
+              <label for="02"></label>
+            <td><input type="checkbox" id="03"/>
+              <label for="03"></label>
+            <td><input type="checkbox" id="04" />
+              <label for="04"></label>
+           <td><input type="checkbox" id="05" />
+              <label for="05"></label>
+           <td><input type="checkbox" id="06" checked="checked" />
+              <label for="06"></label>
+        </tr>
+        <tr >
+          <th class="times">10am</th>
+          <td><input type="checkbox" id="10" />
+            <label for="10"></label>
+          <td><input type="checkbox" id="11" checked="checked"/>
+            <label for="11"></label>
+          <td><input type="checkbox" id="12" />
+            <label for="12"></label>
+          <td><input type="checkbox" id="13" />
+            <label for="13"></label>
+          <td><input type="checkbox" id="14" />
+            <label for="14"></label>
+         <td><input type="checkbox" id="15" />
+            <label for="15"></label>
+         <td><input type="checkbox" id="16" checked="checked"/>
+            <label for="16"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">11am</th>
+          <td><input type="checkbox" id="20" />
+            <label for="20"></label>
+          <td><input type="checkbox" id="21" checked="checked"/>
+            <label for="21"></label>
+          <td><input type="checkbox" id="22" />
+            <label for="22"></label>
+          <td><input type="checkbox" id="23" />
+            <label for="23"></label>
+          <td><input type="checkbox" id="24" />
+            <label for="24"></label>
+         <td><input type="checkbox" id="25" />
+            <label for="25"></label>
+         <td><input type="checkbox" id="26" checked="checked"/>
+            <label for="26"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">12pm</th>
+          <td><input type="checkbox" id="30" />
+            <label for="30"></label>
+          <td><input type="checkbox" id="31" />
+            <label for="31"></label>
+          <td><input type="checkbox" id="32" />
+            <label for="32"></label>
+          <td><input type="checkbox" id="33" />
+            <label for="33"></label>
+          <td><input type="checkbox" id="34" />
+            <label for="34"></label>
+         <td><input type="checkbox" id="35" />
+            <label for="35"></label>
+         <td><input type="checkbox" id="36" >
+            <label for="36"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">1pm</th>
+          <td><input type="checkbox" id="40" />
+            <label for="40"></label>
+          <td><input type="checkbox" id="41" />
+            <label for="41"></label>
+          <td><input type="checkbox" id="42" />
+            <label for="42"></label>
+          <td><input type="checkbox" id="43" />
+            <label for="43"></label>
+          <td><input type="checkbox" id="44" />
+            <label for="44"></label>
+         <td><input type="checkbox" id="45" />
+            <label for="45"></label>
+         <td><input type="checkbox" id="46" />
+            <label for="46"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">2pm</th>
+          <td><input type="checkbox" id="50" />
+            <label for="50"></label>
+          <td><input type="checkbox" id="51" />
+            <label for="51"></label>
+          <td><input type="checkbox" id="52" />
+            <label for="52"></label>
+          <td><input type="checkbox" id="53" />
+            <label for="53"></label>
+          <td><input type="checkbox" id="54" />
+            <label for="54"></label>
+         <td><input type="checkbox" id="55" />
+            <label for="55"></label>
+         <td><input type="checkbox" id="56" />
+            <label for="56"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">3pm</th>
+          <td><input type="checkbox" id="60" />
+            <label for="60"></label>
+          <td><input type="checkbox" id="61" />
+            <label for="61"></label>
+          <td><input type="checkbox" id="62" />
+            <label for="62"></label>
+          <td><input type="checkbox" id="63" />
+            <label for="63"></label>
+          <td><input type="checkbox" id="64" />
+            <label for="64"></label>
+         <td><input type="checkbox" id="65" />
+            <label for="65"></label>
+         <td><input type="checkbox" id="66" />
+            <label for="66"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">4pm</th>
+          <td><input type="checkbox" id="70" />
+            <label for="70"></label>
+          <td><input type="checkbox" id="71" />
+            <label for="71"></label>
+          <td><input type="checkbox" id="72" />
+            <label for="72"></label>
+          <td><input type="checkbox" id="73" />
+            <label for="73"></label>
+          <td><input type="checkbox" id="74" />
+            <label for="74"></label>
+         <td><input type="checkbox" id="75" />
+            <label for="75"></label>
+         <td><input type="checkbox" id="76" />
+            <label for="76"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">5pm</th>
+          <td><input type="checkbox" id="80" />
+            <label for="80"></label>
+          <td><input type="checkbox" id="81" />
+            <label for="81"></label>
+          <td><input type="checkbox" id="82" />
+            <label for="82"></label>
+          <td><input type="checkbox" id="83" />
+            <label for="83"></label>
+          <td><input type="checkbox" id="84" />
+            <label for="84"></label>
+         <td><input type="checkbox" id="85" />
+            <label for="85"></label>
+         <td><input type="checkbox" id="86" />
+            <label for="86"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">6pm</th>
+          <td><input type="checkbox" id="90" />
+            <label for="90"></label>
+          <td><input type="checkbox" id="91" />
+            <label for="91"></label>
+          <td><input type="checkbox" id="92" />
+            <label for="92"></label>
+          <td><input type="checkbox" id="93" />
+            <label for="93"></label>
+          <td><input type="checkbox" id="94" />
+            <label for="94"></label>
+         <td><input type="checkbox" id="95" />
+            <label for="95"></label>
+         <td><input type="checkbox" id="96" />
+            <label for="96"></label>
+      </tr>
+      <tr >
+              
+          <th class="times">7pm</th>
+          <td><input type="checkbox" id="100" />
+            <label for="100"></label>
+          <td><input type="checkbox" id="101" />
+            <label for="101"></label>
+          <td><input type="checkbox" id="102" />
+            <label for="102"></label>
+          <td><input type="checkbox" id="103" />
+            <label for="103"></label>
+          <td><input type="checkbox" id="104" />
+            <label for="104"></label>
+         <td><input type="checkbox" id="105" />
+            <label for="105"></label>
+         <td><input type="checkbox" id="106" />
+            <label for="106"></label>
+      </tr>
+          <tr>
+            <th>8pm</th>
+          </tr>
+  
+      </table>
+
+        </div>
+
+    </div>
+   
+        
+          
+   
+
 <script>
 
-function home() {
-  window.location.href = "managerHome.html"
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+        authDomain: "capstone450.firebaseapp.com",
+        databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+        projectId: "capstone450",
+        storageBucket: "capstone450.appspot.com",
+        messagingSenderId: "706717697173",
+        appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+        measurementId: "G-V28RYN23J2"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    function logout(){
+  document.getElementById("logoutform").style.display = "block";
 }
 
+function confirmLogOut(){
+  firebase.auth().signOut().then(() => {
+    window.location.href = "/index.html"
+  }).catch((error) => {
+    alert("error")
+  });
+}
+
+    var uid = location.search.substring(1);
+
+var childKey;
+
+function editAcct(){
+document.getElementById("editbtn").style.display="none";
+document.getElementById("passcode").style.display="block";
+}
+
+function home() {
+window.location.href = "managerHome.html"
+}
 
 function accnt() {
-  window.location.href = "managerAccount.html"
-}
-
-function employees() {
-  window.location.href = "employees.html"
+window.location.href = "managerAccount.html"
 }
 
 function schedule() {
-  window.location.href = "managerSchedule.html"
+window.location.href = "managerSchedule.html"
 }
 
-function sales() {
-  window.location.href = "salespage.html"
+function employees() {
+window.location.href = "employees.html"
 }
 
-function food() {
-  window.location.href = "foodcostpage.html"
+
+
+
+function mngCode() {
+var code = document.getElementById("Code");
+code = code.value.trim();
+if (code === "12345") {
+    show();
+} else {
+    alert("incorrect passcode.");
+}
 }
 
-function labor() {
-  window.location.href = "laborpage.html"
+
+function show() {
+document.getElementById("passcode").style.display="none";
+for (i = 1; i < 7; i++) {
+    var temp = "btn" + i;
+    document.getElementById(temp).removeAttribute("disabled");
 }
+}
+
 
 function nameBtn() {
-    document.getElementById("name").disabled = false;
+document.getElementById("name").disabled = false;
+}
+
+function idBtn() {
+document.getElementById("sixDig").disabled = false;
+}
+
+function pswBtn() {
+document.getElementById("psw").disabled = false;
+}
+
+function hrsBtn() {
+document.getElementById("hours").disabled = false;
 }
 
 function emailBtn() {
-    document.getElementById("email").disabled = false;
+document.getElementById("email").disabled = false;
 }
 
 function hryWBtn() {
-    document.getElementById("wage").disabled = false;
+document.getElementById("wage").disabled = false;
 }
 
-function sunBtn() {
-    document.getElementById("sun").disabled = false;
+function setDta(){
+
+    var uName = location.search.substring(1);
+
+    var ref = firebase.database().ref("users");
+    ref.once("value").then(function(snapshot){
+
+        childKey =snapshot.child(uName + "/name").val();
+        document.getElementById("name").innerHTML= childKey;
+        console.log(childKey);
+    
+
+        childKey =snapshot.child(uName + "/UID").val();
+        document.getElementById("sixDig").innerHTML = childKey;
+
+        childKey =snapshot.child(uName + "/password").val();
+        document.getElementById("psw").textContent = childKey;
+
+        childKey = snapshot.child(uName + "/email").val();
+        document.getElementById("email").textContent = childKey;
+
+        childKey = snapshot.child(uName + "/hoursPerWeek").val();
+        document.getElementById("hours").textContent = childKey;
+
+        childKey = snapshot.child(uName + "/hourly").val();
+        document.getElementById("wage").textContent = childKey;
+
+        childKey = snapshot.child(uName + "/position").val();
+        document.getElementById("pstn").textContent = childKey;
+
+    });
+
 }
 
-function monBtn() {
-    document.getElementById("mon").disabled = false;
-}
+setDta();
 
-function tuesBtn() {
-    document.getElementById("tues").disabled = false;
-}
 
-function wedBtn() {
-    document.getElementById("wed").disabled = false;
-}
-
-function thursBtn() {
-    document.getElementById("thurs").disabled = false;
-}
-
-function friBtn() {
-    document.getElementById("fri").disabled = false;
-}
-
-function satBtn() {
-    document.getElementById("sat").disabled = false;
-}
 
 
 </script>
