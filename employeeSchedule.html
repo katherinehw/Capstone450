@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
 
 </head>
 <body>
@@ -25,29 +29,50 @@
         <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i
                 class="fas fa-user-astronaut"></i></span></button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-            <button id="accnt" onclick="accnt()" class="w3-padding-large w3-bar-item w3-button">Account</button>
-            <button id="logout" class="w3-padding-large w3-bar-item w3-button">Log Out</button>
+            <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
+            <a href="#logout" class="w3-padding-large w3-bar-item w3-button" onclick="logout()">Log Out</a>
         </div>
     </div>
 </div>
 <div>
 
+<div class="w3-modal" id="logoutform" style="display:none">
+    <form class="w3-modal-content">
+      <h1>Are you sure you want to log out?</h1>
+  
+      <button class="w3-button w3-black" onclick="confirmLogOut()">Log Out</button>
+      <button class="w3-button w3-black" onclick="closeForm()">Close</button>
+    </form>
+  </div>
 
-<div class ="w3-container w3-padding-32">
+
+<div class ="w3-container w3-center w3-padding-32">
     <h1>Schedule</h1>
-    <div class ="w3-quarter"></div>
-    <div class ="w3-quarter">
-        <label for="issue">Report An Issue (The box to the right):</label>
-        <br><br><br>
-        <label for="trade">Suggest a shift change:</label>
-        <br><br><br>
-        <label for="dayoff">Request a day off:</label>
+    <div class="w3-row-padding w3-border">
+        <div class ="w3-quarter"><p> </p></div>
+        <div class ="w3-quarter">
+        <label for="issue"><b>Report An Issue:</b></label>
+        </div>
+        <div class ="w3-quarter">
+            <textarea id="issue" class="w3-left" placeholder="Date and issue"></textarea>
+            <button class="w3-right" id="issueSub">submit</button>
+        </div>
+    </div><br>
+    <div class="w3-row-padding w3-border">
+        <div class ="w3-quarter"><p> </p></div>
+        <div class ="w3-quarter">
+        <label for="trade"><b>Suggest a shift trade:</b></label>
+        </div>
+        <div class ="w3-quarter">
+            <textarea id="trade" class="w3-left" placeholder="Employee and shift times"></textarea>
+            <button class="w3-right" id="TradeSub">submit</button>
+        </div>
     </div>
-
-    <div class ="w3-quarter">
-        <textarea placeholder="Date(s):"></textarea></td>
-        <textarea placeholder="Who do you want to switch with?"></textarea>
+    <br><br>
+    <div class="w3-center">
+        <b>Request a day off:</b>
     </div>
+    <br><br>
     <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=7&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=eG9ra2F0eG9AZ21haWwuY29t&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=bXJqanFubTE3dDQ3N3Z2OHEwcjJlZXJkMGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%237986CB&amp;color=%237986CB&amp;color=%239E69AF&amp;color=%23616161&amp;showPrint=0&amp;title=Choose%20a%20day&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
     <br><br>
     <button>Submit</button>
@@ -56,12 +81,88 @@
 </div>
 
 <script>
-    function home() {
-    window.location.href = "nonManHome.html"
+var firebaseConfig = {
+        apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+        authDomain: "capstone450.firebaseapp.com",
+        databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+        projectId: "capstone450",
+        storageBucket: "capstone450.appspot.com",
+        messagingSenderId: "706717697173",
+        appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+        measurementId: "G-V28RYN23J2"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+var uid = location.search.substring(1);
+
+function logout(){
+  document.getElementById("logoutform").style.display = "block";
+}
+
+function confirmLogOut(){
+  firebase.auth().signOut().then(() => {
+    window.location.href = "/index.html"
+  }).catch((error) => {
+    alert("error")
+  });
+}
+
+function home(){
+  window.location.href = ""
 }
 
 function accnt() {
-    window.location.href = "employeeAccount.html"
+  window.location.href = "managerAccount.html?" + uid + ""
+}
+
+function analytics(){
+    window.location.href="analytics.html";
+}
+
+function schedule(){
+    window.location.href="managerSchedule.html";
+}
+
+var issue=document.getElementById("issue");
+var trade=document.getElementById("trade");
+
+document.getElementById("issueSub").addEventListener("click", function(e){
+  if(issue.value==""){
+    alert("type a message.");
+  }
+  else{
+  firebase.database().ref("SchedIssues").push({
+    problem: issue.value,
+
+  });
+  issue.value='';
+  }
+});
+
+document.getElementById("tradeSub").addEventListener("click", function(e){
+  if(trade.value==""){
+    alert("type a message.");
+  }
+  else{
+  firebase.database().ref("SchedTrades").push({
+    tRequest: trade.value,
+
+  });
+  trade.value='';
+  }
+});
+
+function logout(){
+  document.getElementById("logoutform").style.display = "block";
+}
+
+function confirmLogOut(){
+  firebase.auth().signOut().then(() => {
+    window.location.href = "/index.html"
+  }).catch((error) => {
+    alert("error")
+  });
 }
 
 
