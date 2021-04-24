@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Customer Survey</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
+<script src="/configuration.js"></script>
+
+<body>
+
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-black w3-card">
+      <a class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+      <a  class="w3-bar-item w3-padding-large"><span style="color: rgb(247, 244, 243);">
+        <i class="fas fa-cat"></i>
+      </span></a>
+      <a class="w3-bar-item w3-padding-large">Manage My Restaurant- Taste of Philly</a>
+    </div>
+  </div>
+
+
+  <div class="w3-padding-top-64 w3-center" id="welcome"> 
+    <br><h1>Welcome Customer :)</h1>
+  </div>
+<br>
+
+  <div class="w3-row-padding w3-center w3-margin" id="customLinks">
+    <div>
+    <div class="w3-half">
+      <div class=" w3-center w3-padding-large w3-margin w3-card" style="height: 200px;">
+        <h3>Looking for the restaurant's website? <br>To place an order, contact your restaurant, and more</h3>
+        <br><a class="w3-button" href="http://www.tasteofphilly.biz/">CLICK HERE</a>
+      </div></div>
+    <div class="w3-half">
+      <div class="w3-center w3-padding-large w3-margin w3-card" style="height: 200px;">
+        <h3>If you'd like to fill out a survey to receive a coupon in your email</h3>
+        <br><a class="w3-button" onclick="hideLinks()">CLICK HERE</a>
+      </div></div>
+      <button class ="w3-button w3-black w3-margin w3-center" id="cancelbtn" onclick="cancel()">Cancel</button> 
+    </div>
+  </div>
+  
+
+  <div class="w3-container w3-center" id="survey" style="display:none">
+    <br>
+    <h2>Tell us how we're doing! We value your feedback.</h2>
+    <br>
+    <div class="w3-row-padding-20" >   
+      <h3>How would you rate the helpfulness and friendliness of staff?</h3>
+      <input type="radio" id="verypoor" name="staff" value="verypoor">
+      <label for="verypoor">Very poor </label>&nbsp;&nbsp;
+      <input type="radio" id="poor" name="staff" value="poor">
+      <label for="poor">Poor</label>&nbsp;&nbsp;
+      <input type="radio" id="adequate" name="staff" value="adequate">
+      <label for="adequate">Adequate</label>&nbsp;&nbsp;
+      <input type="radio" id="good" name="staff" value="good">
+      <label for="good">Good</label>&nbsp;&nbsp;
+      <input type="radio" id="exceptional" name="staff" value="exceptional">
+      <label for="exceptional">Exceptional</label>
+    </div><br>
+    <div class="w3-row-padding-20">   
+      <h3>How would you rate the speed of service during your visit?</h3>
+      <input type="radio" id="verypoor" name="speed" value="verypoor">
+      <label for="verypoor">Very poor </label>&nbsp;&nbsp;
+      <input type="radio" id="poor" name="speed" value="poor">
+      <label for="poor">Poor</label>&nbsp;&nbsp;
+      <input type="radio" id="adequate" name="speed" value="adequate">
+      <label for="adequate">Adequate</label>&nbsp;&nbsp;
+      <input type="radio" id="good" name="speed" value="good">
+      <label for="good">Good</label>&nbsp;&nbsp;
+      <input type="radio" id="exceptional" name="speed" value="exceptional">
+      <label for="exceptional">Exceptional</label>
+    </div><br>
+    <div class="w3-row-padding-20">   
+      <h3>How would you rate the quality of your food?</h3>
+      <input type="radio" id="verypoor" name="food" value="verypoor">
+      <label for="verypoor">Very poor </label>&nbsp;&nbsp;
+      <input type="radio" id="poor" name="food" value="poor">
+      <label for="poor">Poor</label>&nbsp;&nbsp;
+      <input type="radio" id="adequate" name="food" value="adequate">
+      <label for="adequate">Adequate</label>&nbsp;&nbsp;
+      <input type="radio" id="good" name="food" value="good">
+      <label for="good">Good</label>&nbsp;&nbsp;
+      <input type="radio" id="exceptional" name="food" value="exceptional">
+      <label for="exceptional">Exceptional</label>
+    </div><br>
+    <div class="w3-row-padding-20">   
+      <h3>How would you rate the cleanliness and overall environment in the restaurant?</h3>
+      <input type="radio" id="verypoor" name="clean" value="verypoor">
+      <label for="verypoor">Very poor </label>&nbsp;&nbsp;
+      <input type="radio" id="poor" name="clean" value="poor">
+      <label for="poor">Poor</label>&nbsp;&nbsp;
+      <input type="radio" id="adequate" name="clean" value="adequate">
+      <label for="adequate">Adequate</label>&nbsp;&nbsp;
+      <input type="radio" id="good" name="clean" value="good">
+      <label for="good">Good</label>&nbsp;&nbsp;
+      <input type="radio" id="exceptional" name="clean" value="exceptional">
+      <label for="exceptional">Exceptional</label>
+    </div><br>
+    <div class="w3-row-padding-20">   
+      <h3>Please rate your overall experience during your visit</h3>
+      <input type="radio" id="verypoor" name="overall" value="verypoor">
+      <label for="verypoor">Very poor </label>&nbsp;&nbsp;
+      <input type="radio" id="poor" name="overall" value="poor">
+      <label for="poor">Poor</label>&nbsp;&nbsp;
+      <input type="radio" id="adequate" name="overall" value="adequate">
+      <label for="adequate">Adequate</label>&nbsp;&nbsp;
+      <input type="radio" id="good" name="overall" value="good">
+      <label for="good">Good</label>&nbsp;&nbsp;
+      <input type="radio" id="exceptional" name="overall" value="exceptional">
+      <label for="exceptional">Exceptional</label>
+    </div><br>
+
+    <label for="cstmrEmail">Email address:</label>
+    <input type="email" id="customer" name="user" value="customer">
+    <br><br>
+    <button class ="w3-button w3-black w3-margin" id="cancelbtn" onclick="cancel()">Cancel</button>
+    <button class ="w3-button w3-black" id="cancelbtn" onclick="submitSurv()">Submit</button>
+    <br><br><br><br><br><br><br><br>
+  </div>
+  
+  <div class="w3-padding-top-64 w3-center" id="thankYou" style="display:none"> 
+    <br><h1>Thank You Customer :)</h1>
+    <p>Check your email for a coupon</p>
+  </div>
+     
+<script>
+
+  function cancel(){
+    window.location.href= "index.html"
+  }
+
+  function submitSurv(){
+    setTimeout(function(){
+      document.getElementById("welcome").style.display="none";
+      document.getElementById("survey").style.display="none";
+      document.getElementById("thankYou").style.display="block";
+    }, 1000);
+  }
+
+  function hideLinks(){
+    document.getElementById("customLinks").style.display= "none";
+    document.getElementById("survey").style.display ="block";
+  }
+</script>
+  
+
+
+    </body>
+</html>

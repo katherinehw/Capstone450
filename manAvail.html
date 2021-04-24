@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Availability</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="test.css">
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+    <script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div>
+    <div class="w3-bar w3-black w3-card">
+        <a class="w3-bar-item w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+        <a  class="w3-bar-item w3-padding-large"><span style="color: rgb(247, 244, 243);">
+      <i class="fas fa-cat"></i>
+    </span></a>
+        <a class="w3-bar-item w3-padding-large">Availability </a>
+    </div>
+</div>
+<h1 class="w3-center w3-padding-top-32">Enter the days and times during the week you are available.</h1>
+<div >
+
+    <table id="tble">
+
+        <tr>
+
+            
+            <th ></th>
+            <th >Sunday</th>
+            <th >Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th >Thursday</th>
+            <th >Friday</th>
+            <th >Saturday</th>
+
+        </tr>
+        <tr >
+            
+          <th class="times">9am</th>
+          <td><input type="checkbox" id="00" />
+            <label for="00"></label>
+          <td><input type="checkbox" id="01" />
+            <label for="01"></label>
+          <td><input type="checkbox" id="02" />
+            <label for="02"></label>
+          <td><input type="checkbox" id="03" />
+            <label for="03"></label>
+          <td><input type="checkbox" id="04" />
+            <label for="04"></label>
+         <td><input type="checkbox" id="05" />
+            <label for="05"></label>
+         <td><input type="checkbox" id="06" />
+            <label for="06"></label>
+      </tr>
+      <tr >
+            
+        <th class="times">10am</th>
+        <td><input type="checkbox" id="10" />
+          <label for="10"></label>
+        <td><input type="checkbox" id="11" />
+          <label for="11"></label>
+        <td><input type="checkbox" id="12" />
+          <label for="12"></label>
+        <td><input type="checkbox" id="13" />
+          <label for="13"></label>
+        <td><input type="checkbox" id="14" />
+          <label for="14"></label>
+       <td><input type="checkbox" id="15" />
+          <label for="15"></label>
+       <td><input type="checkbox" id="16" />
+          <label for="16"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">11am</th>
+        <td><input type="checkbox" id="20" />
+          <label for="20"></label>
+        <td><input type="checkbox" id="21" />
+          <label for="21"></label>
+        <td><input type="checkbox" id="22" />
+          <label for="22"></label>
+        <td><input type="checkbox" id="23" />
+          <label for="23"></label>
+        <td><input type="checkbox" id="24" />
+          <label for="24"></label>
+       <td><input type="checkbox" id="25" />
+          <label for="25"></label>
+       <td><input type="checkbox" id="26" />
+          <label for="26"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">12pm</th>
+        <td><input type="checkbox" id="30" />
+          <label for="30"></label>
+        <td><input type="checkbox" id="31" />
+          <label for="31"></label>
+        <td><input type="checkbox" id="32" />
+          <label for="32"></label>
+        <td><input type="checkbox" id="33" />
+          <label for="33"></label>
+        <td><input type="checkbox" id="34" />
+          <label for="34"></label>
+       <td><input type="checkbox" id="35" />
+          <label for="35"></label>
+       <td><input type="checkbox" id="36" />
+          <label for="36"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">1pm</th>
+        <td><input type="checkbox" id="40" />
+          <label for="40"></label>
+        <td><input type="checkbox" id="41" />
+          <label for="41"></label>
+        <td><input type="checkbox" id="42" />
+          <label for="42"></label>
+        <td><input type="checkbox" id="43" />
+          <label for="43"></label>
+        <td><input type="checkbox" id="44" />
+          <label for="44"></label>
+       <td><input type="checkbox" id="45" />
+          <label for="45"></label>
+       <td><input type="checkbox" id="46" />
+          <label for="46"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">2pm</th>
+        <td><input type="checkbox" id="50" />
+          <label for="50"></label>
+        <td><input type="checkbox" id="51" />
+          <label for="51"></label>
+        <td><input type="checkbox" id="52" />
+          <label for="52"></label>
+        <td><input type="checkbox" id="53" />
+          <label for="53"></label>
+        <td><input type="checkbox" id="54" />
+          <label for="54"></label>
+       <td><input type="checkbox" id="55" />
+          <label for="55"></label>
+       <td><input type="checkbox" id="56" />
+          <label for="56"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">3pm</th>
+        <td><input type="checkbox" id="60" />
+          <label for="60"></label>
+        <td><input type="checkbox" id="61" />
+          <label for="61"></label>
+        <td><input type="checkbox" id="62" />
+          <label for="62"></label>
+        <td><input type="checkbox" id="63" />
+          <label for="63"></label>
+        <td><input type="checkbox" id="64" />
+          <label for="64"></label>
+       <td><input type="checkbox" id="65" />
+          <label for="65"></label>
+       <td><input type="checkbox" id="66" />
+          <label for="66"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">4pm</th>
+        <td><input type="checkbox" id="70" />
+          <label for="70"></label>
+        <td><input type="checkbox" id="71" />
+          <label for="71"></label>
+        <td><input type="checkbox" id="72" />
+          <label for="72"></label>
+        <td><input type="checkbox" id="73" />
+          <label for="73"></label>
+        <td><input type="checkbox" id="74" />
+          <label for="74"></label>
+       <td><input type="checkbox" id="75" />
+          <label for="75"></label>
+       <td><input type="checkbox" id="76" />
+          <label for="76"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">5pm</th>
+        <td><input type="checkbox" id="80" />
+          <label for="80"></label>
+        <td><input type="checkbox" id="81" />
+          <label for="81"></label>
+        <td><input type="checkbox" id="82" />
+          <label for="82"></label>
+        <td><input type="checkbox" id="83" />
+          <label for="83"></label>
+        <td><input type="checkbox" id="84" />
+          <label for="84"></label>
+       <td><input type="checkbox" id="85" />
+          <label for="85"></label>
+       <td><input type="checkbox" id="86" />
+          <label for="86"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">6pm</th>
+        <td><input type="checkbox" id="90" />
+          <label for="90"></label>
+        <td><input type="checkbox" id="91" />
+          <label for="91"></label>
+        <td><input type="checkbox" id="92" />
+          <label for="92"></label>
+        <td><input type="checkbox" id="93" />
+          <label for="93"></label>
+        <td><input type="checkbox" id="94" />
+          <label for="94"></label>
+       <td><input type="checkbox" id="95" />
+          <label for="95"></label>
+       <td><input type="checkbox" id="96" />
+          <label for="96"></label>
+    </tr>
+    <tr >
+            
+        <th class="times">7pm</th>
+        <td><input type="checkbox" id="100" />
+          <label for="100"></label>
+        <td><input type="checkbox" id="101" />
+          <label for="101"></label>
+        <td><input type="checkbox" id="102" />
+          <label for="102"></label>
+        <td><input type="checkbox" id="103" />
+          <label for="103"></label>
+        <td><input type="checkbox" id="104" />
+          <label for="104"></label>
+       <td><input type="checkbox" id="105" />
+          <label for="105"></label>
+       <td><input type="checkbox" id="106" />
+          <label for="106"></label>
+    </tr>
+        <tr>
+          <th>8pm</th>
+        </tr>
+
+    </table><br><br><br>
+    <div class="w3-center">
+      <button class="w3-black w3-large" onclick="setData()">Submit</button>
+      <button class="w3-black w3-large" onclick="Next()">Next</button>
+    </div><br><br><br>
+</div>
+
+<script>
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+        authDomain: "capstone450.firebaseapp.com",
+        databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+        projectId: "capstone450",
+        storageBucket: "capstone450.appspot.com",
+        messagingSenderId: "706717697173",
+        appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+        measurementId: "G-V28RYN23J2"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var uid = location.search.substring(1);
+
+    var temp;
+    var uName = "/" + location.search.substring(1);
+    //var uName = "/123456";
+    var childKey;
+    var weekD = ["/Sunday", "/Monday", "/Tuesday", "/Wednesday", "/Thursday", "/Friday", "/Saturday"];
+    var time = ["/0910", "/1011", "/1112", "/1201", "/0102", "/0203", "/0304", "/0405", "/0506", "/0607", "/0708"];
+
+    function setData(){
+
+        for (var i = 0; i < 11; i++){
+
+            for (var j = 0; j < 7; j++){
+
+                temp = document.getElementById("" + i + j + "").checked;
+
+                if (temp){
+
+                    firebase.database().ref('AvailB' + uName + time[i] + weekD[j]).set({
+
+                        Check: "Yes"
+
+
+                    });
+
+                }else{
+
+                    firebase.database().ref('AvailB' + uName + time[i] + weekD[j]).set({
+
+                        Check: "No"
+
+
+                    });
+
+                }
+
+            }
+
+        }
+
+        
+        
+
+    }
+
+function Next(){
+
+  window.location.href= "/htmlFiles/Manager/managerHome.html?"  + uid + ""
+
+}
+
+</script>
+
+</body>
+</html>
