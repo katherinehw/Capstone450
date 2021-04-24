@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Analytics</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/b1b6f02eef.js" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="configuration.js"></script>
+<script src="Mnavigation.js"></script>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large"><span style="color: rgb(247, 244, 243);">
+      <i class="fas fa-cat" onclick="home()" id="home"></i>
+      </span></a>
+    <a href="#analytics" class="w3-bar-item w3-button w3-padding-large" onclick ="analytics()">Analytics</a> 
+    <a href="#schedule" class="w3-bar-item w3-button w3-padding-large" onclick ="schedule()">Schedule</a>
+    <a href="#employees" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick ="employees()">Employees</a>
+    
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-bell"></i></a>
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-white w3-hide-small w3-right"><i class="far fa-comments"></i></a>
+    <div class="w3-dropdown-hover w3-hide-small w3-right">
+      <button class="w3-padding-large w3-button" title="account"><span style="color: rgb(247, 244, 243);"><i class="fas fa-user-astronaut"></i></span></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#account" class="w3-padding-large w3-bar-item w3-button" onclick="accnt()">Account</a>
+        <a href="#logout" class="w3-padding-large w3-bar-item w3-button" onclick="logout()">Log Out</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="w3-modal" id="logoutform" style="display:none">
+  <form class="w3-modal-content">
+    <h1>Are you sure you want to log out?</h1>
+
+    <button class="w3-button w3-black" onclick="confirmLogOut()">Log Out</button>
+    <button class="w3-button w3-black" onclick="closeForm()">Close</button>
+  </form>
+</div>
+<br><br><br><br>
+<div class="w3-center">
+  <h1><b>Analytics</b></h1>
+</div>
+<div class = "w3-container w3-center w3-border">
+  <div class="w3-center">
+    <h1><b>Sales</b></h1>
+  </div>
+  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+    <div class="w3-third">
+      <img src="sales.svg" alt="Sales" style="width:100%">
+    </div>
+    <div class="w3-third">
+      <h3>Sales goals</h3>
+      <p>Friday net sales goal= $4,555</p><br>
+      <p>Friday net sales= $4381.92</p><br>
+      <p>Total orders= 202</p><br>
+    </div>
+    <div class="w3-third">
+      <h3>Top numbers</h3>
+      <p>Busiest hour = 5-6pm</p><br>
+      <p>Sales during busiest hour = $200</p><br>
+      <p>Average price/order= $21.69</p><br>
+      
+    </div>
+    
+  </div>
+</div>
+  <br><br>
+
+<div class = "w3-container w3-center w3-border">
+  <div class="w3-center">
+    <h1><b>Labor cost</b></h1>
+  </div>
+  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+    <div class="w3-third">
+      <img src="labor.svg" alt="Sales" style="width:100%">
+    </div>
+    <div class="w3-third">
+      <h3>Goals</h3>
+      <p>Total Pay/ Sales = 31.85%</p><br>
+      <p>Labor cost goal = 33%</p><br>
+      <p>Overtime hours = 1.88</p><br>
+    </div>
+    <div class="w3-third">
+      <h3>Top numbers</h3>
+      <p>Total Friday pay = $799.44</p><br>
+      <p>Total Sales/ Employee hour = $43.22/hr</p><br>
+      <p>Total Employee Hours = 56.20</p><br>
+      
+    </div>
+  
+  </div>
+</div>
+  <br><br>
+
+<div class = "w3-container w3-center w3-border">
+    <div class="w3-center">
+      <h1><b>Customer Feedback</b></h1>
+    </div>
+  
+    <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+      <div class="w3-third">
+        <img src="custom.svg" alt="Sales" style="width:100%">
+      </div>
+      <div class="w3-third">
+        <h3>Survey Responses</h3>
+        <p>Average food quality rating = exceptional</p><br>
+        <p>Average speed of service rating = adequate</p><br>
+        <p>Average friendliness rating = good</p><br>
+      </div>
+      <div class="w3-third">
+        <h3>Customer Service ratings</h3>
+        <p>Average cleanliness rating = good</p><br>
+        <p>Average overall experience = good</p><br>
+        <p>likeliness to recommend our restaurant = poor</p><br>
+    
+      </div>
+    
+    </div>
+  
+  </div>
+ <br><br>
+<div class = "w3-container w3-center w3-border">
+  <div class="w3-center">
+    <h1><b>Food cost</b></h1>
+  </div>
+
+  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+    <div class="w3-third">
+      <img src="foodcost.svg" alt="Sales" style="width:100%">
+    </div>
+    <div class="w3-third">
+      <h3>Goals</h3>
+      <p>Food Cost/ Sales goal = 29%</p><br>
+      <p>Food Cost/ Sales = 30%</p><br>
+      <p>Total food cost today = $1518.33</p><br>
+    </div>
+    <div class="w3-third">
+     
+    </div>
+  
+  </div>
+
+</div>
+<script>
+var firebaseConfig = {
+        apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
+        authDomain: "capstone450.firebaseapp.com",
+        databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
+        projectId: "capstone450",
+        storageBucket: "capstone450.appspot.com",
+        messagingSenderId: "706717697173",
+        appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
+        measurementId: "G-V28RYN23J2"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+var childKey;
+
+function editAcct(){
+document.getElementById("editbtn").style.display="none";
+document.getElementById("passcode").style.display="block";
+}
+
+function home() {
+window.location.href = "managerHome.html"
+}
+
+function accnt() {
+window.location.href = "managerAccount.html"
+}
+
+function schedule() {
+window.location.href = "managerSchedule.html"
+}
+
+function employees() {
+window.location.href = "employees.html"
+}
+
+  function home(){
+    window.location.href="managerHome.html";
+  }
+
+  function logout(){
+  document.getElementById("logoutform").style.display = "block";
+}
+
+function confirmLogOut(){
+  firebase.auth().signOut().then(() => {
+    window.location.href = "/index.html"
+  }).catch((error) => {
+    alert("error")
+  });
+}
+</script>
+
+</body>
+</html>
