@@ -9,22 +9,8 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
-<script>
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  var firebaseConfig = {
-    apiKey: "AIzaSyCMkSmHmn_zNCoHwthP9J6HtqPgtwokXyo",
-    authDomain: "capstone450.firebaseapp.com",
-    databaseURL: "https://capstone450-default-rtdb.firebaseio.com",
-    projectId: "capstone450",
-    storageBucket: "capstone450.appspot.com",
-    messagingSenderId: "706717697173",
-    appId: "1:706717697173:web:00b44ba17bb2fa112bc79c",
-    measurementId: "G-V28RYN23J2"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  </script>
+<script src="configuration.js"></script>
+
 
 <body>
 
@@ -39,84 +25,46 @@
     </div>
   </div>
 
-  <div id="loginscreen">
-    <div class="row">
-      <div class="column w3-padding-top-64 w3-center">
-        <div class="w3-container"> 
-          <h1>Sign In</h1>
-          <p>Welcome back good and faithful servant :)</p>
+  <div class="w3-container w3-center w3-large">
+    <br><br><br><br>
+    <h1>Welcome!</h1>
+    <br><br>
 
-          <label for="email"><b>Email</b></label>
-          <input type="email" placeholder="enter email" id="email" required>
-          <label for="password"><b>Password</b></label>
-          <input type="password" placeholder="password" id="password" required>
-          <br>
-          <br>
-          <button class ="w3-button w3-black" id="login" onclick="login()">Log In</button>
-          <button class = "w3-button w3-black" id="signup" onclick ="signup()">Sign Up</a> 
-          <button class="w3-button w3-black" id = "cancel" name ="cancel">Cancel</button>
-          <br>  
-          <br>
-          <button class="w3-button w3-black" disabled id="verify-email" name="verify-email">Send Email Verification</button>
-          <button class="w3-button w3-black" id="password-reset" onclick="tester()" name="verify-email">Send Password Reset Email</button>
+    <div class="w3-row-padding-20" id ="userType">   
+    
+      <input type="radio" id="employee" name="user" value="employee">
+      <label for="employee">I'm an employee</label>
+      <input type="radio" id="customer" name="user" value="customer">
+      <label for="customer">I'm a customer</label>
+  </div>
+  <br><br>
+  <button type ="submit" id ="next" onclick ="loaduserpage()">submit</button>
 
-        </div>
-      </div>
-
-    </div>
   </div>
 
   
-
-
-    </body>
-
-<script>
-
-  function tester(){
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-
-  firebase.database().ref('users/' + email).set({
-  
-    email: email,
-    password: password
-
-  });
-  }
-
-  function signup(){
-      window.location.href = "SignUp.html"
-  }
-  
-  function login(){
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-
-    firebase.auth().signInWithEmailAndPassword(email,password).catch(e=>{
-      console.log(e);
-    })
-
-    firebase.auth().onAuthStateChanged(user=>{
-    if (user){
-      console.log(user);
-      window.location.href = "htmlFiles/nonmanager/nonManHome.html";
-    }
-    else{
-      
-
-    }
-    
-  })
-
-
-  }
-
-    
-    
-    </script>
         
   </body>
+  <script>
+    function loaduserpage(){
+
+
+var employee = document.getElementById("employee")
+var customer = document.getElementById("customer")
+
+var selUser = document.querySelector("[name=user]:checked");
+
+if (!selUser) {
+    error.push("Choose One");
+}
+
+else if(customer.checked){
+    window.location.href = "CustomerSurvey.html"
+}
+else{
+    window.location.href = "SignIn.html"
+}
+}
+  </script>
 
 </html>
-
